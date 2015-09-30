@@ -3,7 +3,7 @@ Contributors: junaidbhura
 Tags: media library, images, resize, dynamic, on the fly
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 4.3
+Stable tag: 1.0.0
 
 Dynamically create image sizes on the fly!
 
@@ -24,27 +24,15 @@ This is because the images created using this plugin are dynamically created whe
 3. The user visits the page for the first time, and the image is dynamically created and is stored
 4. The user visits the page again for the second time, and the stored version of the image is served
 
-= Learn to use this plugin =
+= Documentation =
 
-Take a look at the [Documentation](https://wordpress.org/plugins/fly-dynamic-image-resizer/documentation/) to see how you can use this plugin in your theme.
+Here are some functions and example code to get you started!
 
-== Installation ==
-
-Upload 'fly-dynamic-image-resizer' to the '/wp-content/plugins/' directory
-Activate the plugin through the 'Plugins' menu in WordPress
-Create dynamic image sizes in your PHP code!
-
-== Documentation ==
-
-= `fly_get_attachment_image_src( $attachment_id, $size, $crop )` =
-
-**Parameters**
+**fly_get_attachment_image_src( $attachment_id, $size, $crop )**
 
 * **attachment_id** (integer)(required) : The ID of the image attachment
 * **size** (string/array)(required) : Either the name of the pre-defined size defined using `fly_add_image_size`, or an array with the width and height. Ex: array( 500, 500 )
 * **crop** (boolean)(optional) : Whether the image should be cropped or not
-
-**Return Value**
 
 Returns an array:
 
@@ -54,20 +42,20 @@ Returns an array:
 	'height' => integer
 )`
 
-= `fly_get_attachment_image( $attachment_id, $size, $crop, $attr )` =
+&nbsp;
 
-**Parameters**
+**fly_get_attachment_image( $attachment_id, $size, $crop, $attr )**
 
 * **attachment_id** (integer)(required) : The ID of the image attachment
 * **size** (string/array)(required) : Either the name of the pre-defined size defined using `fly_add_image_size`, or an array with the width and height. Ex: array( 500, 500 )
 * **crop** (boolean)(optional) : Whether the image should be cropped or not
 * **attr** (array)(optional) : An array of attributes. Ex: `array( 'alt' => 'Alt text', 'title' => 'Title text', 'class' => 'my-class', 'id' => 'my-id' )`
 
-**Return Value**
-
 Returns a HTML IMG element string:
 
 `<img src="http://yoursite.com/wp-content/uploads/fly-images/10/your-image-500x500-c.jpg" width="500" height="500" alt="Alt text" />`
+
+&nbsp;
 
 = Example 1: Pre-defined Image Sizes =
 
@@ -86,6 +74,8 @@ Here's another way you can do this:
 
 `<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square' ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>`
 
+&nbsp;
+
 = Example 2: Dynamic Image Sizes =
 
 Lets get the post thumbnail using some dynamic image sizes:
@@ -95,6 +85,19 @@ Lets get the post thumbnail using some dynamic image sizes:
 Here's another way you can do this:
 
 `<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square', array( 500, 500 ), true ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>`
+
+== Installation ==
+
+Upload 'fly-dynamic-image-resizer' to the '/wp-content/plugins/' directory
+
+Activate the plugin through the 'Plugins' menu in WordPress
+
+Create dynamic image sizes in your PHP code!
+
+== Screenshots ==
+
+1. The Tools page
+2. Delete individual images' cached fly images
 
 == Changelog ==
 

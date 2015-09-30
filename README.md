@@ -1,5 +1,7 @@
 # Fly Dynamic Image Resizer
 
+**[Download the WP Plugin! ♥](https://wordpress.org/plugins/fly-dynamic-image-resizer/)**
+
 ## What does this plugin do?
 
 
@@ -31,12 +33,15 @@ This is because the images created using this plugin are dynamically created whe
 
 Returns an array:
 
-`array(
+```php
+array(
 	'src' => string,
 	'width' => integer,
 	'height' => integer
-)`
+)
+```
 
+&nbsp;
 
 ###`fly_get_attachment_image( $attachment_id, $size, $crop, $attr )`###
 
@@ -51,31 +56,47 @@ Returns an array:
 
 Returns a HTML IMG element string:
 
-`<img src="http://yoursite.com/wp-content/uploads/fly-images/10/your-image-500x500-c.jpg" width="500" height="500" alt="Alt text" />`
+```html
+<img src="http://yoursite.com/wp-content/uploads/fly-images/10/your-image-500x500-c.jpg" width="500" height="500" alt="Alt text" />
+```
+
+&nbsp;
 
 ### Example 1: Pre-defined Image Sizes
 
 In this method, you define as many image sizes as you want in your **functions.php** file.
 
-`if ( function_exists( 'fly_add_image_size' ) ) {
+```php
+if ( function_exists( 'fly_add_image_size' ) ) {
 	fly_add_image_size( 'home_page_square', 500, 500, true );
 	fly_add_image_size( 'home_page_square_2x', 1000, 1000, true );
-}`
+}
+```
 
 Now, lets get the post thumbnail using the image sizes we just defined:
 
-`<?php echo fly_get_attachment_image( get_post_thumbnail_id(), 'home_page_square' ); ?>`
+```php
+<?php echo fly_get_attachment_image( get_post_thumbnail_id(), 'home_page_square' ); ?>
+```
 
 Here's another way you can do this:
 
-`<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square' ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>`
+```php
+<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square' ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>
+```
+
+&nbsp;
 
 ### Example 2: Dynamic Image Sizes
 
 Lets get the post thumbnail using some dynamic image sizes:
 
-`<?php echo fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), true ); ?>`
+```php
+<?php echo fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), true ); ?>
+```
 
 Here's another way you can do this:
 
-`<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square', array( 500, 500 ), true ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>`
+```php
+<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square', array( 500, 500 ), true ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>
+```
