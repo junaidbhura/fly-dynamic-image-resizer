@@ -9,7 +9,7 @@ Dynamically create image sizes on the fly!
 
 == Description ==
 
-[Check out the Github Repository](https://github.com/junaidbhura/fly-dynamic-image-resizer)
+[Check out the Github Repository ♥](https://github.com/junaidbhura/fly-dynamic-image-resizer)
 
 One of the biggest problems theme developers face is the problem of multiple image sizes. When you upload an image in the media library, WordPress automatically creates thumbnails based on **all the image sizes** you have defined using **`add_image_size()`** whether you want to use them or not. So the vast majority of the images in wp-content/uploads directory **are a waste, and are never used.** This is not the optimum way of creating image sizes.
 
