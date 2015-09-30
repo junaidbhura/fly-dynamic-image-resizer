@@ -21,7 +21,7 @@ This is because the images created using this plugin are dynamically created whe
 
 ## Documentation
 
-###`fly_get_attachment_image_src( $attachment_id, $size, $crop )`
+**`fly_get_attachment_image_src( $attachment_id, $size, $crop )`**
 
 **Parameters**
 
@@ -43,7 +43,7 @@ array(
 
 &nbsp;
 
-###`fly_get_attachment_image( $attachment_id, $size, $crop, $attr )`###
+**`fly_get_attachment_image( $attachment_id, $size, $crop, $attr )`**
 
 **Parameters**
 
