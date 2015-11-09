@@ -39,9 +39,6 @@ class Fly_Images {
 			$this->_fly_dir_writeable = true;
 		}
 
-		/* Filters */
-		$this->_capability = apply_filters( 'fly_images_user_capability', $this->_capability );
-
 		/* Initializations */
 		add_action( 'init', array( $this, 'init' ) );
 	}
@@ -59,6 +56,9 @@ class Fly_Images {
 	 * Admin Menu Item
 	 */
 	public function admin_menu() {
+		/* Capability Filter */
+		$this->_capability = apply_filters( 'fly_images_user_capability', $this->_capability );
+
 		add_management_page( __( 'Fly Images', 'fly-images' ), __( 'Fly Images', 'fly-images' ), $this->_capability, 'fly-images', array( $this, 'options_page' ) );
 	}
 
@@ -189,7 +189,7 @@ class Fly_Images {
 
 		// If size is 'full', we don't need a fly image
 		if ( 'full' == $size ) {
-			return wp_get_attachment_url( $attachment_id );
+			return wp_get_attachment_image_src( $attachment_id );
 		}
 
 		// Get the attachment image
