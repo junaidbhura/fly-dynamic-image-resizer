@@ -2,7 +2,7 @@
 /*
 Plugin Name: Fly Dynamic Image Resizer
 Description: Dynamically create image sizes on the fly!
-Version: 1.0.0
+Version: 1.0.1
 Author: Junaid Bhura
 Author URI: http://www.junaidbhura.com
 Text Domain: fly-images
@@ -189,7 +189,7 @@ class Fly_Images {
 
 		// If size is 'full', we don't need a fly image
 		if ( 'full' == $size ) {
-			return wp_get_attachment_image_src( $attachment_id );
+			return wp_get_attachment_image_src( $attachment_id, 'full' );
 		}
 
 		// Get the attachment image
