@@ -101,6 +101,9 @@ Create dynamic image sizes in your PHP code!
 
 == Changelog ==
 
+= 1.0.2 =
+* Fixed IIS URLs.
+
 = 1.0.1 =
 * Fixed user capabilities.
 * "Full" size for fly_get_attachment_image_src now returns wp_get_attachment_image_src
