@@ -2,7 +2,7 @@
 /*
 Plugin Name: Fly Dynamic Image Resizer
 Description: Dynamically create image sizes on the fly!
-Version: 1.0.1
+Version: 1.0.2
 Author: Junaid Bhura
 Author URI: http://www.junaidbhura.com
 Text Domain: fly-images
@@ -360,7 +360,8 @@ class Fly_Images {
 	 */
 	public function get_fly_path( $absolute_path = '' ) {
 		$wp_upload_dir = wp_upload_dir();
-		return $wp_upload_dir['baseurl'] . str_replace( $wp_upload_dir['basedir'], '', $absolute_path );
+		$path = $wp_upload_dir['baseurl'] . str_replace( $wp_upload_dir['basedir'], '', $absolute_path );
+		return str_replace( DIRECTORY_SEPARATOR, '/', $path );
 	}
 
 	/**
