@@ -2,7 +2,7 @@
 Contributors: junaidbhura
 Tags: media library, images, resize, dynamic, on the fly
 Requires at least: 3.0
-Tested up to: 4.5
+Tested up to: 4.6
 Stable tag: 1.0.2
 
 Dynamically create image sizes on the fly!
