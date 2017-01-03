@@ -2,7 +2,7 @@
 /*
 Plugin Name: Fly Dynamic Image Resizer
 Description: Dynamically create image sizes on the fly!
-Version: 1.0.2
+Version: 1.0.3
 Author: Junaid Bhura
 Author URI: http://www.junaidbhura.com
 Text Domain: fly-images
@@ -26,8 +26,16 @@ class Fly_Images {
 	 * Constructor
 	 */
 	public function __construct() {
+		/* Initializations */
+		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	/**
+	 * Initializes Actions
+	 */
+	public function init() {
 		/* Checks for Fly Images Directory  */
-		$this->_fly_dir = $this->get_fly_dir();
+		$this->_fly_dir = apply_filters( 'fly_dir_path', $this->get_fly_dir() );
 
 		// Check if the Fly Image folder exists and is writeable
 		if ( ! is_dir( $this->_fly_dir ) ) {
@@ -39,14 +47,6 @@ class Fly_Images {
 			$this->_fly_dir_writeable = true;
 		}
 
-		/* Initializations */
-		add_action( 'init', array( $this, 'init' ) );
-	}
-
-	/**
-	 * Initializes Actions
-	 */
-	public function init() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_filter( 'media_row_actions', array( $this, 'media_row_action' ), 10, 2 );
 		add_action( 'delete_attachment', array( $this, 'delete_attachment' ) );
