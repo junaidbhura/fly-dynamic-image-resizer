@@ -3,7 +3,7 @@ Contributors: junaidbhura
 Tags: media library, images, resize, dynamic, on the fly
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 
 Dynamically create image sizes on the fly!
 
@@ -100,6 +100,9 @@ Create dynamic image sizes in your PHP code!
 2. Delete individual images' cached fly images
 
 == Changelog ==
+
+= 1.0.4 =
+* Check for an error in get_attachment_image_src() . Props [christopherrolfe198](https://github.com/christopherrolfe198).
 
 = 1.0.3 =
 * Added new filter 'fly_dir_path'.
