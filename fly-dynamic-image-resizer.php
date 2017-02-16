@@ -2,7 +2,7 @@
 /*
 Plugin Name: Fly Dynamic Image Resizer
 Description: Dynamically create image sizes on the fly!
-Version: 1.0.3
+Version: 1.0.4
 Author: Junaid Bhura
 Author URI: http://www.junaidbhura.com
 Text Domain: fly-images
