@@ -220,14 +220,15 @@ class Fly_Images {
 			// Check if file exsists
 			if ( file_exists( $fly_file_name ) ) {
 				$image_editor = wp_get_image_editor( $fly_file_name );
-				
-				if (!is_wp_error($image_editor)) {
+				if ( ! is_wp_error( $image_editor ) ) {
 					$image_dimensions = $image_editor->get_size();
 					return array(
 						'src' => $this->get_fly_path( $fly_file_name ),
 						'width' => $image_dimensions['width'],
 						'height' => $image_dimensions['height'],
 					);
+				} else {
+					return array();
 				}
 			}
 
