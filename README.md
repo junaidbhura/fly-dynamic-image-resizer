@@ -27,7 +27,7 @@ This is because the images created using this plugin are dynamically created whe
 
 * **attachment_id** (integer)(required) : The ID of the image attachment
 * **size** (string/array)(required) : Either the name of the pre-defined size defined using `fly_add_image_size`, or an array with the width and height. Ex: array( 500, 500 )
-* **crop** (boolean)(optional) : Whether the image should be cropped or not
+* **crop** (boolean/array)(optional) : Whether the image should be cropped, or the crop position
 
 **Return Value**
 
@@ -49,7 +49,7 @@ array(
 
 * **attachment_id** (integer)(required) : The ID of the image attachment
 * **size** (string/array)(required) : Either the name of the pre-defined size defined using `fly_add_image_size`, or an array with the width and height. Ex: array( 500, 500 )
-* **crop** (boolean)(optional) : Whether the image should be cropped or not
+* **crop** (boolean/array)(optional) : Whether the image should be cropped, or the crop position
 * **attr** (array)(optional) : An array of attributes. Ex: `array( 'alt' => 'Alt text', 'title' => 'Title text', 'class' => 'my-class', 'id' => 'my-id' )`
 
 **Return Value**
@@ -70,6 +70,7 @@ In this method, you define as many image sizes as you want in your **functions.p
 if ( function_exists( 'fly_add_image_size' ) ) {
 	fly_add_image_size( 'home_page_square', 500, 500, true );
 	fly_add_image_size( 'home_page_square_2x', 1000, 1000, true );
+	fly_add_image_size( 'cropped_top_left', 1000, 1000, array( 'left', 'top' ) );
 }
 ```
 
@@ -83,6 +84,12 @@ Here's another way you can do this:
 
 ```php
 <?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square' ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>
+```
+
+Let's get the image from our example above which has a crop position defined:
+
+```php
+<?php echo fly_get_attachment_image( get_post_thumbnail_id(), 'cropped_top_left' ); ?>
 ```
 
 &nbsp;
@@ -100,3 +107,21 @@ Here's another way you can do this:
 ```php
 <?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square', array( 500, 500 ), true ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>
 ```
+
+Lets get the post thumbnail cropped from the bottom right:
+
+```php
+<?php echo fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'right', 'bottom' ) ); ?>
+```
+
+&nbsp;
+
+### A note on Crop Positions
+
+Crop positions are set using an array. The first parameter of the array needs to be the x-axis crop and the second parameter needs to be the y-axis crop. This feature **will not** work the other way around.
+
+For example:
+
+✅ `fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'right', 'bottom' ) )` Will work! :)
+
+❎ `fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'bottom', 'right' ) )` Will not work! :(
