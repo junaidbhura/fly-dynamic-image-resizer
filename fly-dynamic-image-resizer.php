@@ -2,7 +2,7 @@
 /*
 Plugin Name: Fly Dynamic Image Resizer
 Description: Dynamically create image sizes on the fly!
-Version: 1.0.4
+Version: 1.0.5
 Author: Junaid Bhura
 Author URI: http://www.junaidbhura.com
 Text Domain: fly-images
@@ -15,12 +15,13 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
  */
 class Fly_Images {
 
-	/* Variables */
-	private $_image_sizes = array();
-	private $_fly_dir = '';
-	private $_fly_dir_writeable = false;
-	private $_show_notice = false;
-	private $_capability = 'manage_options';
+	/**
+	 * Properties
+	 */
+	private $_image_sizes           = array();
+	private $_fly_dir               = '';
+	private $_fly_dir_writeable     = false;
+	private $_capability            = 'manage_options';
 
 	/**
 	 * Constructor
@@ -34,7 +35,7 @@ class Fly_Images {
 	 * Initializes Actions
 	 */
 	public function init() {
-		/* Checks for Fly Images Directory  */
+		// Checks for Fly Images directory
 		$this->_fly_dir = apply_filters( 'fly_dir_path', $this->get_fly_dir() );
 
 		// Check if the Fly Image folder exists and is writeable
@@ -47,6 +48,7 @@ class Fly_Images {
 			$this->_fly_dir_writeable = true;
 		}
 
+		// Admin stuff
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_filter( 'media_row_actions', array( $this, 'media_row_action' ), 10, 2 );
 		add_action( 'delete_attachment', array( $this, 'delete_attachment' ) );
@@ -257,6 +259,9 @@ class Fly_Images {
 				$image_editor->resize( $width, $height, $crop );
 				$image_editor->save( $fly_file_name );
 
+				// Trigger action
+				do_action( 'fly_image_created', $attachment_id, $fly_file_name );
+
 				// Image created, return its data
 				$image_dimensions = $image_editor->get_size();
 				return array(
@@ -338,7 +343,17 @@ class Fly_Images {
 	public function get_fly_file_name( $file_name, $width, $height, $crop ) {
 		$file_name_only = pathinfo( $file_name, PATHINFO_FILENAME );
 		$file_extension = pathinfo( $file_name, PATHINFO_EXTENSION );
-		return $file_name_only . '-' . $width . 'x' . $height . ( $crop ? '-c' : '' ) . '.' . $file_extension;
+
+		$crop_extension = '';
+		if ( true === $crop ) {
+			$crop_extension = '-c';
+		} elseif( is_array( $crop ) ) {
+			$crop_extension = '-' . implode( '', array_map( function( $position ) {
+				return $position[0];
+			}, $crop ) );
+		}
+
+		return $file_name_only . '-' . $width . 'x' . $height . $crop_extension . '.' . $file_extension;
 	}
 
 	/**

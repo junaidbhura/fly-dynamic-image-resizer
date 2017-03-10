@@ -3,7 +3,7 @@ Contributors: junaidbhura
 Tags: media library, images, resize, dynamic, on the fly
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 
 Dynamically create image sizes on the fly!
 
@@ -32,7 +32,7 @@ Here are some functions and example code to get you started!
 
 * **attachment_id** (integer)(required) : The ID of the image attachment
 * **size** (string/array)(required) : Either the name of the pre-defined size defined using `fly_add_image_size`, or an array with the width and height. Ex: array( 500, 500 )
-* **crop** (boolean)(optional) : Whether the image should be cropped or not
+* **crop** (boolean/array)(optional) : Whether the image should be cropped, or the crop position
 
 Returns an array:
 
@@ -48,7 +48,7 @@ Returns an array:
 
 * **attachment_id** (integer)(required) : The ID of the image attachment
 * **size** (string/array)(required) : Either the name of the pre-defined size defined using `fly_add_image_size`, or an array with the width and height. Ex: array( 500, 500 )
-* **crop** (boolean)(optional) : Whether the image should be cropped or not
+* **crop** (boolean/array)(optional) : Whether the image should be cropped, or the crop position
 * **attr** (array)(optional) : An array of attributes. Ex: `array( 'alt' => 'Alt text', 'title' => 'Title text', 'class' => 'my-class', 'id' => 'my-id' )`
 
 Returns a HTML IMG element string:
@@ -64,6 +64,7 @@ In this method, you define as many image sizes as you want in your **functions.p
 `if ( function_exists( 'fly_add_image_size' ) ) {
 	fly_add_image_size( 'home_page_square', 500, 500, true );
 	fly_add_image_size( 'home_page_square_2x', 1000, 1000, true );
+	fly_add_image_size( 'cropped_top_left', 1000, 1000, array( 'left', 'top' ) );
 }`
 
 Now, lets get the post thumbnail using the image sizes we just defined:
@@ -73,6 +74,10 @@ Now, lets get the post thumbnail using the image sizes we just defined:
 Here's another way you can do this:
 
 `<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square' ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>`
+
+Let's get the image from our example above which has a crop position defined:
+
+`<?php echo fly_get_attachment_image( get_post_thumbnail_id(), 'cropped_top_left' ); ?>`
 
 &nbsp;
 
@@ -85,6 +90,22 @@ Lets get the post thumbnail using some dynamic image sizes:
 Here's another way you can do this:
 
 `<?php $image = fly_get_attachment_image_src( get_post_thumbnail_id(), 'home_page_square', array( 500, 500 ), true ); echo '<img src="' . $image['src'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />'; ?>`
+
+Lets get the post thumbnail cropped from the bottom right:
+
+`<?php echo fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'right', 'bottom' ) ); ?>`
+
+&nbsp;
+
+= A note on Crop Positions =
+
+Crop positions are set using an array. The first parameter of the array needs to be the x-axis crop and the second parameter needs to be the y-axis crop. This feature **will not** work the other way around.
+
+For example:
+
+✓ `fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'right', 'bottom' ) )` Will work! :)
+
+✘ `fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'bottom', 'right' ) )` Will not work! :(
 
 == Installation ==
 
@@ -100,6 +121,10 @@ Create dynamic image sizes in your PHP code!
 2. Delete individual images' cached fly images
 
 == Changelog ==
+
+= 1.0.5 =
+* Added support for crop positions. Images can now be cropped from the top, left, right, bottom or the default: center.
+* Added new hook 'fly_image_created'.
 
 = 1.0.4 =
 * Check for an error in get_attachment_image_src() . Props [christopherrolfe198](https://github.com/christopherrolfe198).
