@@ -272,8 +272,19 @@ class Fly_Images {
 			}
 		}
 
-		// Something went wrong
-		return array();
+		// Something went wrong, try with full sized image
+    $img = wp_get_attachment_image_src( $attachment_id, 'full' );
+    if ( ! empty( $img ) ) {
+      return array(
+        'src' => $img[0],
+        'width' => $size[0],
+        'height' => $size[1],
+      );
+    }
+
+    // Totally wrong
+    return array();
+
 	}
 
 	/**
