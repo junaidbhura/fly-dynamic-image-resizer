@@ -24,10 +24,14 @@
 
 	<div class="card">
 		<h3>WP CLI</h3>
-		<p>Delete all cached fly images:</p>
+		<p><?php esc_html_e( 'Delete all cached fly images:', 'fly-images' ); ?></p>
 		<p><code>wp fly-images delete-all</code></p>
-		<p>Delete specific fly images:</p>
+		<p><?php esc_html_e( 'Delete specific fly images:', 'fly-images' ); ?></p>
 		<p><code>wp fly-images delete 1,2,3</code></p>
+		<p><?php esc_html_e( 'Optimize latest images:', 'fly-images' ); ?></p>
+		<p><code>wp fly-images optimize</code></p>
+		<p><?php esc_html_e( 'Optimize all images:', 'fly-images' ); ?></p>
+		<p><code>wp fly-images optimize --all</code></p>
 	</div> <!-- .card -->
 
 </div> <!-- .wrap -->

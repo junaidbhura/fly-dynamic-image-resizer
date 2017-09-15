@@ -15,13 +15,16 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 /**
  * Plugin path.
  */
-define( 'JB_FLY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'JB_FLY_PLUGIN_PATH', __DIR__ );
 
 /**
  * Require files.
  */
-require_once __DIR__ . '/inc/namespace.php';
-require_once __DIR__ . '/inc/helpers.php';
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	require_once JB_FLY_PLUGIN_PATH . '/inc/class-fly-cli.php';
+}
+require_once JB_FLY_PLUGIN_PATH . '/inc/namespace.php';
+require_once JB_FLY_PLUGIN_PATH . '/inc/helpers.php';
 
 /**
  * Actions.

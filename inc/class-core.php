@@ -121,7 +121,13 @@ class Core {
 	public function delete_all_fly_images() {
 		WP_Filesystem();
 		global $wp_filesystem;
-		return $wp_filesystem->rmdir( $this->get_fly_dir(), true );
+
+		if ( $wp_filesystem->rmdir( $this->get_fly_dir(), true ) ) {
+			$this->check_fly_dir();
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -135,8 +141,7 @@ class Core {
 		) {
 			// Delete all fly images.
 			$this->delete_all_fly_images();
-			$this->check_fly_dir();
-			echo wp_kses_allowed_html( '<div class="updated"><p>' . __( 'All cached images created on the fly have been deleted.', 'fly-images' ) . '</p></div>' );
+			echo '<div class="updated"><p>' . esc_html__( 'All cached images created on the fly have been deleted.', 'fly-images' ) . '</p></div>';
 		} elseif (
 			isset( $_GET['delete-fly-image'], $_GET['ids'], $_GET['fly_nonce'] ) // Input var okay.
 			&& wp_verify_nonce( sanitize_key( $_GET['fly_nonce'] ), 'delete_fly_image' ) // Input var okay.
@@ -147,7 +152,7 @@ class Core {
 				foreach ( $ids as $id ) {
 					$this->delete_attachment_fly_images( $id );
 				}
-				echo wp_kses_allowed_html( '<div class="updated"><p>' . __( 'Deleted all fly images for this image.', 'fly-images' ) . '</p></div>' );
+				echo '<div class="updated"><p>' . esc_html__( 'Deleted all fly images for this image.', 'fly-images' ) . '</p></div>';
 			}
 		}
 
