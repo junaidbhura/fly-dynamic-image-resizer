@@ -107,6 +107,10 @@ For example:
 
 ✘ `fly_get_attachment_image( get_post_thumbnail_id(), array( 500, 500 ), array( 'bottom', 'right' ) )` Will not work! :(
 
+= Detailed Documentation =
+
+Check out the GitHub repository's Wiki page for the full documentation: [https://github.com/junaidbhura/fly-dynamic-image-resizer/wiki](https://github.com/junaidbhura/fly-dynamic-image-resizer/wiki)
+
 == Installation ==
 
 Upload 'fly-dynamic-image-resizer' to the '/wp-content/plugins/' directory
@@ -121,6 +125,12 @@ Create dynamic image sizes in your PHP code!
 2. Delete individual images' cached fly images
 
 == Changelog ==
+
+= 2.0.0 =
+* Complete re-factor of the plugin using better coding practices, standards and unit tests.
+* Image optimization has finally arrived - sort of. You'll still need to install the utilities on your server before it can start working. More info [here](https://github.com/junaidbhura/fly-dynamic-image-resizer/wiki/Optimization).
+* New WP CLI commands to manipulate Fly images. More info [here](https://github.com/junaidbhura/fly-dynamic-image-resizer/wiki/WP-CLI).
+* Full release details: [https://github.com/junaidbhura/fly-dynamic-image-resizer/releases/tag/2.0.0](https://github.com/junaidbhura/fly-dynamic-image-resizer/releases/tag/2.0.0)
 
 = 1.0.5 =
 * Added support for crop positions. Images can now be cropped from the top, left, right, bottom or the default: center.
