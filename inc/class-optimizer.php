@@ -9,19 +9,20 @@ class Optimizer {
 	private static $_instance    = null;
 	private $_allowed_extensions = [ 'png', 'jpg', 'jpeg' ];
 	private $_commands           = [
-		'png' => 'pngquant --speed 1 --ext=.png --force',
-		'jpg' => 'jpegoptim --strip-all --all-progressive --max=80',
-		'gif' => 'gifsicle -b -O2',
+		'png' => '/usr/local/bin/pngquant --speed 1 --ext=.png --force',
+		'jpg' => '/usr/local/bin/jpegoptim --strip-all --all-progressive --max=80',
+		'gif' => '/usr/local/bin/gifsicle -b -O2',
 	];
 
 	/**
 	 * Get current instance.
 	 *
-	 * @return Optimizer
+	 * @return object
 	 */
 	public static function get_instance() {
 		if ( ! self::$_instance ) {
-			self::$_instance = new Optimizer();
+			$class = __CLASS__;
+			self::$_instance = new $class();
 		}
 		return self::$_instance;
 	}

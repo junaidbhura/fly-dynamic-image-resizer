@@ -14,11 +14,12 @@ class Core {
 	/**
 	 * Get current instance.
 	 *
-	 * @return Core
+	 * @return object
 	 */
 	public static function get_instance() {
 		if ( ! self::$_instance ) {
-			self::$_instance = new Core();
+			$class = __CLASS__;
+			self::$_instance = new $class();
 		}
 		return self::$_instance;
 	}
@@ -35,6 +36,9 @@ class Core {
 		add_action( 'admin_menu', array( $this, 'admin_menu_item' ) );
 		add_filter( 'media_row_actions', array( $this, 'media_row_action' ), 10, 2 );
 		add_action( 'delete_attachment', array( $this, 'delete_attachment_fly_images' ) );
+		if ( $this->user_can_optimize_images() ) {
+			add_action( 'fly_image_created', array( $this, 'optimize_new_fly_image' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -114,6 +118,20 @@ class Core {
 	}
 
 	/**
+	 * Check if current user can optimize images.
+	 *
+	 * @return boolean
+	 */
+	public function user_can_optimize_images() {
+		if ( apply_filters( 'fly_optimize_new_images', false ) ) {
+			if ( ! ( apply_filters( 'fly_optimize_new_images_logged_in', false ) && ! is_user_logged_in() ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Delete all the fly images.
 	 *
 	 * @return boolean
@@ -128,6 +146,18 @@ class Core {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Optimize newly created fly image.
+	 *
+	 * @param int    $attachment_id
+	 * @param string $fly_file_path
+	 * @return bool
+	 */
+	public function optimize_new_fly_image( $attachment_id = 0, $fly_file_path = '' ) {
+		$optimizer = Optimizer::get_instance();
+		return $optimizer->optimize( $fly_file_path );
 	}
 
 	/**
