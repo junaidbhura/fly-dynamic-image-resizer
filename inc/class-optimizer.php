@@ -7,7 +7,7 @@ class Optimizer {
 	 * Properties.
 	 */
 	private static $_instance    = null;
-	private $_allowed_extensions = [ 'png', 'jpg', 'jpeg' ];
+	private $_allowed_extensions = [ 'png', 'jpg', 'jpeg', 'gif' ];
 	private $_commands           = [
 		'png' => '/usr/local/bin/pngquant --speed 1 --ext=.png --force',
 		'jpg' => '/usr/local/bin/jpegoptim --strip-all --all-progressive --max=80',
