@@ -76,24 +76,6 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @covers JB\FlyImages\Core::user_can_optimize_images
-	 */
-	function test_user_can_optimize_image() {
-		$this->assertFalse( has_action( 'fly_image_created' ), 'Fly Image Created action already exists.' );
-		$this->assertFalse( has_filter( 'fly_optimize_new_images' ), 'Fly Optimize New Images filter already exists.' );
-		$this->assertFalse( has_filter( 'fly_optimize_new_images_logged_in' ), 'Fly Optimize New Images for Logged In Users filter already exists.' );
-
-		add_filter( 'fly_optimize_new_images', '__return_true', 10 );
-		$this->assertTrue( self::$_core->user_can_optimize_images(), 'User unable to optimize images.' );
-
-		add_filter( 'fly_optimize_new_images_logged_in', '__return_true', 10 );
-		$this->assertFalse( self::$_core->user_can_optimize_images(), 'Logged out user able to optimize images.' );
-
-		wp_set_current_user( 1 );
-		$this->assertTrue( self::$_core->user_can_optimize_images(), 'Logged in user unable to optimize images.' );
-	}
-
-	/**
 	 * @covers JB\FlyImages\Core::add_image_size
 	 */
 	function test_add_image_size_string() {
