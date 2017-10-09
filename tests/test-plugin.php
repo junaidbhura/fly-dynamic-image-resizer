@@ -123,11 +123,12 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @covers JB\FlyImages\Core::get_file_name
+	 * @covers JB\FlyImages\Core::get_fly_file_name
 	 */
 	function test_file_name() {
 		$this->assertEquals( 'test-200x100.jpg', self::$_core->get_fly_file_name( 'test.jpg', 200, 100, false ) );
 		$this->assertEquals( 'test-200x100-c.jpg', self::$_core->get_fly_file_name( 'test.jpg', 200, 100, true ) );
+		$this->assertEquals( 'test-200x100-c.jpg', self::$_core->get_fly_file_name( 'test.jpg', 200.333, 100.5, true ) );
 		$this->assertEquals( 'test-200x100-lt.jpg', self::$_core->get_fly_file_name( 'test.jpg', 200, 100, array( 'left', 'top' ) ) );
 		$this->assertEquals( 'test-200x100-lb.jpg', self::$_core->get_fly_file_name( 'test.jpg', 200, 100, array( 'left', 'bottom' ) ) );
 		$this->assertEquals( 'test-200x100-rt.jpg', self::$_core->get_fly_file_name( 'test.jpg', 200, 100, array( 'right', 'top' ) ) );

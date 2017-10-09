@@ -345,7 +345,7 @@ class Core {
 	}
 
 	/**
-	 * Gets a file name based on parameters.
+	 * Get a file name based on parameters.
 	 *
 	 * @param  string  $file_name
 	 * @param  string  $width
@@ -366,11 +366,14 @@ class Core {
 			}, $crop ) );
 		}
 
-		return $file_name_only . '-' . $width . 'x' . $height . $crop_extension . '.' . $file_extension;
+		/**
+		 * Note: intval() for width and height is based on Image_Processor::resize()
+		 */
+		return $file_name_only . '-' . intval( $width ) . 'x' . intval( $height ) . $crop_extension . '.' . $file_extension;
 	}
 
 	/**
-	 * Gets the full path of an image based on it's absolute path.
+	 * Get the full path of an image based on it's absolute path.
 	 *
 	 * @param  string $absolute_path
 	 * @return string
@@ -382,7 +385,7 @@ class Core {
 	}
 
 	/**
-	 * Gets the absolute path of an image based on it's full path.
+	 * Get the absolute path of an image based on it's full path.
 	 *
 	 * @param  string $path
 	 * @return string
