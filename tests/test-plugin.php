@@ -92,6 +92,31 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	}
 
 	/**
+	 * @covers fly_get_image_size()
+	 */
+	function test_fly_get_image_size() {
+		$image_size = fly_get_image_size( '400x200' );
+		$this->assertTrue( 400 === $image_size['size'][0], 'Wrong image width.' );
+		$this->assertTrue( 200 === $image_size['size'][1], 'Wrong image height.' );
+		$this->assertTrue( true === $image_size['crop'], 'Wrong crop.' );
+	}
+
+	/**
+	 * @covers fly_get_all_image_sizes()
+	 */
+	function test_get_all_image_sizes() {
+		self::$_core->add_image_size( 'another_test_size', 200, 300, array( 'left', 'top' ) );
+
+		$all_image_sizes = fly_get_all_image_sizes();
+		$this->assertTrue( ! empty( $all_image_sizes ), 'Image sizes empty.' );
+
+		$this->assertTrue( 200 === $all_image_sizes['another_test_size']['size'][0], 'Wrong image width.' );
+		$this->assertTrue( 300 === $all_image_sizes['another_test_size']['size'][1], 'Wrong image height.' );
+		$this->assertTrue( 'left' === $all_image_sizes['another_test_size']['crop'][0], 'Wrong crop X.' );
+		$this->assertTrue( 'top' === $all_image_sizes['another_test_size']['crop'][1], 'Wrong crop Y.' );
+	}
+
+	/**
 	 * @covers JB\FlyImages\Core::get_attachment_image_src
 	 */
 	function test_image_src() {

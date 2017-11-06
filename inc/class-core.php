@@ -198,6 +198,15 @@ class Core {
 	}
 
 	/**
+	 * Get all declared images sizes.
+	 *
+	 * @return array
+	 */
+	public function get_all_image_sizes() {
+		return $this->_image_sizes;
+	}
+
+	/**
 	 * Gets a dynamically generated image URL from the Fly_Images class.
 	 *
 	 * @param  integer  $attachment_id

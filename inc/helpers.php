@@ -46,3 +46,28 @@ if ( ! function_exists( 'fly_get_attachment_image' ) ) {
 		return $fly_images->get_attachment_image( $attachment_id, $size, $crop, $attr );
 	}
 }
+
+if ( ! function_exists( 'fly_get_image_size' ) ) {
+	/**
+	 * Get a previously declared image size from the JB\FlyImages\Core class.
+	 *
+	 * @param  string $size_name
+	 * @return array
+	 */
+	function fly_get_image_size( $size_name = '' ) {
+		$fly_images = JB\FlyImages\Core::get_instance();
+		return $fly_images->get_image_size( $size_name );
+	}
+}
+
+if ( ! function_exists( 'fly_get_all_image_sizes' ) ) {
+	/**
+	 * Get all declared images sizes from the JB\FlyImages\Core class.
+	 *
+	 * @return array
+	 */
+	function fly_get_all_image_sizes() {
+		$fly_images = JB\FlyImages\Core::get_instance();
+		return $fly_images->get_all_image_sizes();
+	}
+}
