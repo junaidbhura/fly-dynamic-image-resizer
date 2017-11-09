@@ -252,13 +252,12 @@ class Core {
 
 			// Check if file exsists
 			if ( file_exists( $fly_file_path ) ) {
-				$image_editor = wp_get_image_editor( $fly_file_path );
-				if ( ! is_wp_error( $image_editor ) ) {
-					$image_dimensions = $image_editor->get_size();
+				$image_size = getimagesize( $fly_file_path );
+				if ( ! empty( $image_size ) ) {
 					return array(
-						'src' => $this->get_fly_path( $fly_file_path ),
-						'width' => $image_dimensions['width'],
-						'height' => $image_dimensions['height'],
+						'src'    => $this->get_fly_path( $fly_file_path ),
+						'width'  => $image_size[0],
+						'height' => $image_size[1],
 					);
 				} else {
 					return array();
