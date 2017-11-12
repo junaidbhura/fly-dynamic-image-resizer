@@ -18,7 +18,7 @@ class Core {
 	 */
 	public static function get_instance() {
 		if ( ! self::$_instance ) {
-			$class = __CLASS__;
+			$class           = __CLASS__;
 			self::$_instance = new $class();
 		}
 		return self::$_instance;
@@ -28,7 +28,7 @@ class Core {
 	 * Initialize plugin.
 	 */
 	public function init() {
-		$this->_fly_dir = apply_filters( 'fly_dir_path', $this->get_fly_dir() );
+		$this->_fly_dir    = apply_filters( 'fly_dir_path', $this->get_fly_dir() );
 		$this->_capability = apply_filters( 'fly_images_user_capability', $this->_capability );
 
 		$this->check_fly_dir();
@@ -96,7 +96,7 @@ class Core {
 			return $actions;
 		}
 
-		$url = wp_nonce_url( admin_url( 'tools.php?page=fly-images&delete-fly-image&ids=' . $post->ID ), 'delete_fly_image', 'fly_nonce' );
+		$url                         = wp_nonce_url( admin_url( 'tools.php?page=fly-images&delete-fly-image&ids=' . $post->ID ), 'delete_fly_image', 'fly_nonce' );
 		$actions['fly-image-delete'] = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( __( 'Delete all cached image sizes for this image', 'fly-images' ) ) . '">' . __( 'Delete Fly Images', 'fly-images' ) . '</a>';
 
 		return $actions;
@@ -234,12 +234,12 @@ class Core {
 					if ( empty( $image_size ) ) {
 						return array();
 					}
-					$width = $image_size['size'][0];
+					$width  = $image_size['size'][0];
 					$height = $image_size['size'][1];
-					$crop = isset( $crop ) ? $crop : $image_size['crop'];
+					$crop   = isset( $crop ) ? $crop : $image_size['crop'];
 					break;
 				case 'array':
-					$width = $size[0];
+					$width  = $size[0];
 					$height = $size[1];
 					break;
 				default:
@@ -247,7 +247,7 @@ class Core {
 			}
 
 			// Get file path
-			$fly_dir = $this->get_fly_dir( $attachment_id );
+			$fly_dir       = $this->get_fly_dir( $attachment_id );
 			$fly_file_path = $fly_dir . DIRECTORY_SEPARATOR . $this->get_fly_file_name( basename( $image['file'] ), $width, $height, $crop );
 
 			// Check if file exsists
@@ -273,7 +273,7 @@ class Core {
 			$this->check_fly_dir();
 
 			// Get WP Image Editor Instance
-			$image_path = get_attached_file( $attachment_id );
+			$image_path   = get_attached_file( $attachment_id );
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
 				// Create new image
@@ -318,15 +318,15 @@ class Core {
 			return wp_get_attachment_image( $attachment_id, $size, $attr );
 		}
 
-		$html = '';
+		$html  = '';
 		$image = $this->get_attachment_image_src( $attachment_id, $size, $crop );
 		if ( $image ) {
-			$hwstring = image_hwstring( $image['width'], $image['height'] );
+			$hwstring   = image_hwstring( $image['width'], $image['height'] );
 			$size_class = $size;
 			if ( is_array( $size_class ) ) {
 				$size_class = join( 'x', $size );
 			}
-			$attachment = get_post( $attachment_id );
+			$attachment   = get_post( $attachment_id );
 			$default_attr = array(
 				'src'   => $image['src'],
 				'class' => "attachment-$size_class",
@@ -388,7 +388,7 @@ class Core {
 	 */
 	public function get_fly_path( $absolute_path = '' ) {
 		$wp_upload_dir = wp_upload_dir();
-		$path = $wp_upload_dir['baseurl'] . str_replace( $wp_upload_dir['basedir'], '', $absolute_path );
+		$path          = $wp_upload_dir['baseurl'] . str_replace( $wp_upload_dir['basedir'], '', $absolute_path );
 		return str_replace( DIRECTORY_SEPARATOR, '/', $path );
 	}
 

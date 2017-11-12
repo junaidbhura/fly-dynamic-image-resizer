@@ -12,7 +12,7 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	 * Setup.
 	 */
 	static function setUpBeforeClass() {
-		self::$_core = \JB\FlyImages\Core::get_instance();
+		self::$_core     = \JB\FlyImages\Core::get_instance();
 		self::$_image_id = self::upload_image();
 	}
 
