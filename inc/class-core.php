@@ -36,6 +36,7 @@ class Core {
 		add_action( 'admin_menu', array( $this, 'admin_menu_item' ) );
 		add_filter( 'media_row_actions', array( $this, 'media_row_action' ), 10, 2 );
 		add_action( 'delete_attachment', array( $this, 'delete_attachment_fly_images' ) );
+		add_action( 'wp_generate_attachment_metadata', array( $this, 'regenerate_attachment_fly_images' ), 10, 2 );
 	}
 
 	/**
@@ -100,6 +101,18 @@ class Core {
 		$actions['fly-image-delete'] = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( __( 'Delete all cached image sizes for this image', 'fly-images' ) ) . '">' . __( 'Delete Fly Images', 'fly-images' ) . '</a>';
 
 		return $actions;
+	}
+
+	/**
+	 * Regenerate all fly images for an attachment.
+	 *
+	 * @param  array $metadata
+	 * @param  integer $attachment_id
+	 * @return boolean
+	 */
+	public function regenerate_attachment_fly_images( $metadata = array(), $attachment_id = 0 ) {
+		$this->delete_attachment_fly_images( $attachment_id );
+		return $metadata;
 	}
 
 	/**
