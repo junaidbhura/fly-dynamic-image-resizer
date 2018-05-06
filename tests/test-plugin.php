@@ -7,6 +7,7 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 
 	private static $_core;
 	private static $_image_id = 0;
+	private static $blog_2_id = 0;
 
 	/**
 	 * Setup.
@@ -14,6 +15,7 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	static function setUpBeforeClass() {
 		self::$_core     = \JB\FlyImages\Core::get_instance();
 		self::$_image_id = self::upload_image();
+		self::$blog_2_id = wpmu_create_blog( 'example.org', 'blog-2', 'Blog 2', 1 );
 	}
 
 	/**
@@ -21,6 +23,7 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	 */
 	static function tearDownAfterClass() {
 		wp_delete_attachment( self::$_image_id, true );
+		wpmu_delete_blog( self::$blog_2_id, true );
 	}
 
 	/**
@@ -165,6 +168,24 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 	 */
 	function test_delete_all_fly_images() {
 		$this->assertTrue( self::$_core->delete_all_fly_images(), 'Cannot delete all fly images.' );
+	}
+
+	/**
+	 * @covers JB\FlyImages\Core::blog_switched
+	 */
+	function test_multisite() {
+		$wp_upload_dir = wp_upload_dir();
+		$path_1        = $wp_upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'fly-images';
+		$this->assertEquals( self::$_core->get_fly_dir(), $path_1 );
+
+		switch_to_blog( self::$blog_2_id );
+
+		$wp_upload_dir = wp_upload_dir();
+		$path_2        = $wp_upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'fly-images';
+		$this->assertEquals( self::$_core->get_fly_dir(), $path_2 );
+
+		restore_current_blog();
+		$this->assertEquals( self::$_core->get_fly_dir(), $path_1 );
 	}
 
 }

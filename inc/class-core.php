@@ -36,6 +36,8 @@ class Core {
 		add_action( 'admin_menu', array( $this, 'admin_menu_item' ) );
 		add_filter( 'media_row_actions', array( $this, 'media_row_action' ), 10, 2 );
 		add_action( 'delete_attachment', array( $this, 'delete_attachment_fly_images' ) );
+
+		add_action( 'switch_blog', array( $this, 'blog_switched' ) );
 	}
 
 	/**
@@ -401,5 +403,15 @@ class Core {
 	public function get_fly_absolute_path( $path = '' ) {
 		$wp_upload_dir = wp_upload_dir();
 		return $wp_upload_dir['basedir'] . str_replace( $wp_upload_dir['baseurl'], '', $path );
+	}
+
+	/**
+	 * Update Fly Dir when a blog is switched.
+	 *
+	 * @return void
+	 */
+	public function blog_switched() {
+		$this->_fly_dir = '';
+		$this->_fly_dir = apply_filters( 'fly_dir_path', $this->get_fly_dir() );
 	}
 }
