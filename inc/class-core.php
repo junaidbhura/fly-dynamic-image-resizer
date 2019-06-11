@@ -389,8 +389,7 @@ class Core {
 	 * @return string
 	 */
 	public function get_fly_path( $absolute_path = '' ) {
-		$wp_upload_dir = wp_upload_dir();
-		$path          = $wp_upload_dir['baseurl'] . str_replace( $wp_upload_dir['basedir'], '', $absolute_path );
+		$path = home_url( str_replace( ABSPATH, '', $absolute_path ) );
 		return str_replace( DIRECTORY_SEPARATOR, '/', $path );
 	}
 
