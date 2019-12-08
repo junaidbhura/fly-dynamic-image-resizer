@@ -276,6 +276,7 @@ class Core {
 
 			// Get WP Image Editor Instance
 			$image_path   = get_attached_file( $attachment_id );
+			$image_path   = apply_filters( 'fly_attachment_path', $image_path, $attachment_id );
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
 				// Create new image
