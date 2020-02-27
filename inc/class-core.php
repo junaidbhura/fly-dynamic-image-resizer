@@ -166,6 +166,8 @@ class Core {
 	/**
 	 * Add image sizes to be created on the fly.
 	 *
+	 * Either width or height can be zero (0), but not both.
+	 *
 	 * @param  string   $size_name
 	 * @param  integer  $width
 	 * @param  integer  $height
@@ -173,14 +175,26 @@ class Core {
 	 * @return boolean
 	 */
 	public function add_image_size( $size_name, $width = 0, $height = 0, $crop = false ) {
-		if ( empty( $size_name ) || ! $width || ! $height ) {
+		if ( empty( $size_name ) ) {
 			return false;
 		}
 
-		$this->_image_sizes[ $size_name ] = [
-			'size' => [ $width, $height ],
+		if ( ! $width && 0 !== $width ) {
+			return false;
+		}
+
+		if ( ! $height && 0 !== $height ) {
+			return false;
+		}
+
+		if ( 0 === $height && 0 === $width ) {
+			return false;
+		}
+
+		$this->_image_sizes [ $size_name ] = array(
+			'size' => array( $width, $height ),
 			'crop' => $crop,
-		];
+		);
 
 		return true;
 	}
