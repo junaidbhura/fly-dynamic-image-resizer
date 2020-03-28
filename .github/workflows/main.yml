@@ -28,13 +28,13 @@ jobs:
         docker-php-ext-install -j$(nproc) gd
         pecl install mcrypt-1.0.2
         docker-php-ext-enable mcrypt
-        
+
     - name: Checkout repository
       uses: actions/checkout@v1
 
     - name: Install Composer dependencies
       run: |
-        curl -sS https://getcomposer.org/installer | php 
+        curl -sS https://getcomposer.org/installer | php
         mv composer.phar /usr/local/bin/composer
         composer global require "phpunit/phpunit=6.1.0"
         composer global require wp-coding-standards/wpcs
@@ -45,7 +45,7 @@ jobs:
         bash bin/install-wp-tests.sh wordpress_test root root mysql latest
 
     - name: Coding standards
-      run: $HOME/.composer/vendor/bin/phpcs
+      run: $HOME/.composer/vendor/bin/phpcs phpcs.ruleset.xml
 
     - name: Unit tests
       run: $HOME/.composer/vendor/bin/phpunit
