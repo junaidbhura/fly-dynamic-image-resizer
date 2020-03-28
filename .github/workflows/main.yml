@@ -1,0 +1,51 @@
+name: Coding Standards and Tests
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    container:
+      image: php:7.2-apache
+    services:
+      mysql:
+        image: mysql:5.7.27
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306
+        volumes:
+          - $HOME/mysql:/var/lib/mysql
+
+    steps:
+    - name: Install dependencies
+      run: |
+        apt-get update
+        apt-get install -y gnupg libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libicu-dev git subversion default-mysql-client
+        docker-php-ext-install -j$(nproc) iconv intl pdo pdo_mysql mysqli mbstring
+        docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+        docker-php-ext-install -j$(nproc) gd
+        pecl install mcrypt-1.0.2
+        docker-php-ext-enable mcrypt
+        
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Install Composer dependencies
+      run: |
+        curl -sS https://getcomposer.org/installer | php 
+        mv composer.phar /usr/local/bin/composer
+        composer global require "phpunit/phpunit=6.1.0"
+        composer global require wp-coding-standards/wpcs
+        $HOME/.composer/vendor/bin/phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+
+    - name: Install WordPress test suite
+      run: |
+        bash bin/install-wp-tests.sh wordpress_test root root mysql latest
+
+    - name: Coding standards
+      run: $HOME/.composer/vendor/bin/phpcs
+
+    - name: Unit tests
+      run: $HOME/.composer/vendor/bin/phpunit
