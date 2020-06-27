@@ -277,8 +277,8 @@ class Core {
 			// Get WP Image Editor Instance
 			$image_path   = apply_filters(
 				'fly_attached_file',
-				get_attached_file( $attachment_id ), 
-				$attachment_id
+				get_attached_file( $attachment_id ),
+				$attachment_id,
 				$size,
 				$crop
 			);
