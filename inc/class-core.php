@@ -371,7 +371,7 @@ class Core {
 	 */
 	public function get_fly_file_name( $file_name, $width, $height, $crop ) {
 		$file_name_only = pathinfo( $file_name, PATHINFO_FILENAME );
-		$file_extension = pathinfo( $file_name, PATHINFO_EXTENSION );
+		$file_extension = strtolower( pathinfo( $file_name, PATHINFO_EXTENSION ) );
 
 		$crop_extension = '';
 		if ( true === $crop ) {
