@@ -47,9 +47,14 @@ jobs:
         composer global require wp-coding-standards/wpcs
         $HOME/.composer/vendor/bin/phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
 
-    - name: Install WordPress test suite
+    - name: Wait for MySQL
       run: |
-        bash bin/install-wp-tests.sh wordpress_test root root mysql ${{ matrix.wordpress-version }}
+        while ! mysqladmin ping -h mysql -u root -p${MYSQL_ROOT_PASSWORD}; do
+          sleep 1
+        done
+
+    - name: Install WordPress test suite
+      run: bash bin/install-wp-tests.sh wordpress_test root root mysql ${{ matrix.wordpress-version }}
 
     - name: Coding standards
       run: $HOME/.composer/vendor/bin/phpcs phpcs.ruleset.xml
