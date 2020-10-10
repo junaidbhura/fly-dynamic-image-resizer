@@ -275,7 +275,13 @@ class Core {
 			$this->check_fly_dir();
 
 			// Get WP Image Editor Instance
-			$image_path   = get_attached_file( $attachment_id );
+			$image_path   = apply_filters(
+				'fly_attached_file',
+				get_attached_file( $attachment_id ),
+				$attachment_id,
+				$size,
+				$crop
+			);
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
 				// Create new image
@@ -365,7 +371,7 @@ class Core {
 	 */
 	public function get_fly_file_name( $file_name, $width, $height, $crop ) {
 		$file_name_only = pathinfo( $file_name, PATHINFO_FILENAME );
-		$file_extension = pathinfo( $file_name, PATHINFO_EXTENSION );
+		$file_extension = strtolower( pathinfo( $file_name, PATHINFO_EXTENSION ) );
 
 		$crop_extension = '';
 		if ( true === $crop ) {

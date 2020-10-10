@@ -1,5 +1,7 @@
 # Fly Dynamic Image Resizer
 
+![GitHub Actions](https://github.com/junaidbhura/fly-dynamic-image-resizer/workflows/Coding%20Standards%20and%20Tests/badge.svg)
+
 **[Download the WP Plugin! ♥](https://wordpress.org/plugins/fly-dynamic-image-resizer/)**
 
 ## What does this plugin do?
