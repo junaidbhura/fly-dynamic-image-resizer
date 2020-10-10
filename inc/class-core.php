@@ -209,6 +209,28 @@ class Core {
 	}
 
 	/**
+	 * Check if we can resize and save the file.
+	 *
+	 * @param string $file Full path to the file.
+	 * @return bool
+	 */
+	public function can_resize_and_save($file = '') {
+		if ( ! $file ) {
+			return false;
+		}
+
+		$supports = array(
+			'mime_type' => wp_check_filetype_and_ext( $file, basename( $file ) )['type'],
+			'methods'   => array(
+				'resize',
+				'save',
+			),
+		);
+
+		return wp_image_editor_supports( $supports );
+	}
+
+	/**
 	 * Gets a dynamically generated image URL from the Fly_Images class.
 	 *
 	 * @param  integer  $attachment_id
@@ -219,6 +241,21 @@ class Core {
 	public function get_attachment_image_src( $attachment_id = 0, $size = '', $crop = null ) {
 		if ( $attachment_id < 1 || empty( $size ) ) {
 			return array();
+		}
+
+		// Check if given attachment is an existing image
+		$file = wp_get_attachment_image_url( $attachment_id );
+		if ( ! $file ) {
+			return array();
+		}
+
+		// Check if we can resize and save the image
+		if ( ! $this->can_resize_and_save( $file ) ) {
+			return array(
+				'src'    => esc_url( home_url( $file ) ),
+				'width'  => 'auto',
+				'height' => 'auto',
+			);
 		}
 
 		// If size is 'full', we don't need a fly image
@@ -319,6 +356,17 @@ class Core {
 	public function get_attachment_image( $attachment_id = 0, $size = '', $crop = null, $attr = array() ) {
 		if ( $attachment_id < 1 || empty( $size ) ) {
 			return '';
+		}
+
+		// Check if given attachment is an existing image
+		$file = wp_get_attachment_image_url( $attachment_id );
+		if ( ! $file ) {
+			return '';
+		}
+
+		// Check if we can resize and save the image
+		if ( ! $this->can_resize_and_save( $file ) ) {
+			return wp_get_attachment_image( $attachment_id, 'full', $attr );
 		}
 
 		// If size is 'full', we don't need a fly image
