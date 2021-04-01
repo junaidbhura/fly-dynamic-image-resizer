@@ -299,6 +299,16 @@ class Core {
 					'height' => $image_dimensions['height'],
 				);
 			}
+		} else {
+			// WordPress was unable to get the metadata. So it must be unsupported.
+			$src = wp_get_attachment_image_src( $attachment_id, 'full' );
+			if ( ! empty( $src ) ) {
+				return array(
+					'src'    => $src[0],
+					'width'  => 0,
+					'height' => 0,
+				);
+			}
 		}
 
 		// Something went wrong
