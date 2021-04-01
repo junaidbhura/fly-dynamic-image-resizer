@@ -111,6 +111,10 @@ class Core {
 	 * @return boolean
 	 */
 	public function delete_attachment_fly_images( $attachment_id = 0 ) {
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			return false;
+		}
+
 		WP_Filesystem();
 		global $wp_filesystem;
 		return $wp_filesystem->rmdir( $this->get_fly_dir( $attachment_id ), true );
@@ -122,6 +126,10 @@ class Core {
 	 * @return boolean
 	 */
 	public function delete_all_fly_images() {
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			return false;
+		}
+
 		WP_Filesystem();
 		global $wp_filesystem;
 
