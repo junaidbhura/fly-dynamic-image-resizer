@@ -256,6 +256,14 @@ class Core {
 					return array();
 			}
 
+			$is_crop_by_coordinates = is_array( $crop ) && isset( $crop[0] ) && isset( $crop[1] ) && is_numeric( $crop[0] );
+
+			//If it is a string and into a number value, then parse it as an integer.
+			if( $is_crop_by_coordinates && ( is_string( $crop[0] ) || is_string( $crop[1] ) ) ) {
+				$crop[0] = intval( $crop[0] );
+				$crop[1] = intval( $crop[1] );
+			}
+
 			// Get file path
 			$fly_dir       = $this->get_fly_dir( $attachment_id );
 			$fly_file_path = $fly_dir . DIRECTORY_SEPARATOR . $this->get_fly_file_name( basename( $image['file'] ), $width, $height, $crop );
@@ -293,7 +301,6 @@ class Core {
 
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
-				$is_crop_by_coordinates = is_array( $crop ) && is_numeric( $crop[0] );
 
 				// Create new image
 				if( $is_crop_by_coordinates ) {
