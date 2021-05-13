@@ -290,9 +290,62 @@ class Core {
 				$size,
 				$crop
 			);
+
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
+				$is_crop_by_coordinates = is_array( $crop ) && is_numeric( $crop[0] );
+
 				// Create new image
+				if( $is_crop_by_coordinates ) {
+					$image_orig_size = $image_editor->get_size();
+
+					$x = $crop[0];
+					$y = $crop[1];
+
+					//By default, we use the original value, since getting it is more difficult than any other.
+					$custom_crop_w = !empty($crop[2])? $crop[2] : $image_orig_size['width'];
+					$custom_crop_h = !empty($crop[3])? $crop[3] : $image_orig_size['height'];
+
+					if( is_float( $x ) ) { //is percents
+						if( empty($crop[2]) && empty($crop[3]) ){
+							//Select the crop size on the larger side. Crop off the largest side.
+							//Using proportions
+							if($image_orig_size['width'] > $image_orig_size['height']){
+								$src_w = $width * ( $image_orig_size['height'] / $height );
+								$src_h = $image_orig_size['height'];
+							}else{
+								$src_w = $image_orig_size['width'];
+								$src_h = $height * ( $image_orig_size['width'] / $width );
+							}
+
+							//Move the centering point.
+							if( $image_orig_size['width'] > $image_orig_size['height'] ) {
+								$src_x = ( $image_orig_size['width'] - $src_w ) * $x;
+								$src_y = 0;
+							} else {
+								$src_y = ( $image_orig_size['height'] - $src_h ) * $y;
+								$src_x = 0;
+							}
+						} else {
+							$src_w = $custom_crop_w;
+							$src_h = $custom_crop_h;
+
+							//Move the centering point.
+							$src_x = ( $image_orig_size['width'] - $src_w ) * $x;
+							$src_y = ( $image_orig_size['height'] - $src_h ) * $y;
+						}
+					} else { //is pixels
+						//Pixel cropping gives you much more leeway than percentages.
+						//To do this, you need to specify your width and height of the cropping area relative to the original dimensions.
+						$src_x = $x;
+						$src_y = $y;
+						$src_w = $custom_crop_w;
+						$src_h = $custom_crop_h;
+					}
+
+					$image_editor->crop( $src_x, $src_y, $src_w, $src_h, null, null, false );
+					$crop = false;
+				}
 				$image_editor->resize( $width, $height, $crop );
 				$image_editor->save( $fly_file_path );
 
@@ -385,8 +438,9 @@ class Core {
 		if ( true === $crop ) {
 			$crop_extension = '-c';
 		} elseif ( is_array( $crop ) ) {
-			$crop_extension = '-' . implode( '', array_map( function( $position ) {
-				return $position[0];
+			$is_crop_by_coordinates = is_numeric( $crop[0] );
+			$crop_extension = '-' . implode( $is_crop_by_coordinates? '-' : '', array_map( function( $position ) use( $is_crop_by_coordinates ) {
+				return $is_crop_by_coordinates? strtr( (string) $position, ['.' => '_'] ) : $position[0];
 			}, $crop ) );
 		}
 
