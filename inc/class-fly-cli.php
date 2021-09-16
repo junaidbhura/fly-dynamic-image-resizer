@@ -13,11 +13,11 @@ class Fly_CLI extends WP_CLI_Command {
 	 */
 	public function delete_all( $args, $args_assoc ) {
 		$fly_images = Core::get_instance();
-		WP_CLI::line( esc_html__( 'Deleting all fly images...', 'fly-images' ) );
+		WP_CLI::line( esc_html__( 'Deleting all fly images...', 'fly-dynamic-image-resizer' ) );
 		if ( $fly_images->delete_all_fly_images() ) {
-			WP_CLI::success( esc_html__( 'All fly images deleted.', 'fly-images' ) );
+			WP_CLI::success( esc_html__( 'All fly images deleted.', 'fly-dynamic-image-resizer' ) );
 		} else {
-			WP_CLI::error( esc_html__( 'There was a problem deleting the fly images.', 'fly-images' ) );
+			WP_CLI::error( esc_html__( 'There was a problem deleting the fly images.', 'fly-dynamic-image-resizer' ) );
 		}
 	}
 
@@ -30,16 +30,16 @@ class Fly_CLI extends WP_CLI_Command {
 	public function delete_ids( $args, $args_assoc ) {
 		$ids = array_map( 'trim', explode( ',', $args[0] ) );
 		if ( empty( $ids ) ) {
-			WP_CLI::error( esc_html__( 'Please enter valid IDs.', 'fly-images' ) );
+			WP_CLI::error( esc_html__( 'Please enter valid IDs.', 'fly-dynamic-image-resizer' ) );
 		}
 
 		$fly_images = Core::get_instance();
 		foreach ( $ids as $id ) {
-			WP_CLI::line( esc_html__( 'Deleting: ', 'fly-images' ) . $id );
+			WP_CLI::line( esc_html__( 'Deleting: ', 'fly-dynamic-image-resizer' ) . $id );
 			$fly_images->delete_attachment_fly_images( $id );
 		}
 
-		WP_CLI::success( esc_html__( 'The selected fly images have been deleted.', 'fly-images' ) );
+		WP_CLI::success( esc_html__( 'The selected fly images have been deleted.', 'fly-dynamic-image-resizer' ) );
 	}
 
 }

@@ -78,8 +78,8 @@ class Core {
 	 */
 	public function admin_menu_item() {
 		add_management_page(
-			__( 'Fly Images', 'fly-images' ),
-			__( 'Fly Images', 'fly-images' ),
+			__( 'Fly Images', 'fly-dynamic-image-resizer' ),
+			__( 'Fly Images', 'fly-dynamic-image-resizer' ),
 			$this->_capability,
 			'fly-images',
 			array( $this, 'options_page' )
@@ -99,7 +99,7 @@ class Core {
 		}
 
 		$url                         = wp_nonce_url( admin_url( 'tools.php?page=fly-images&delete-fly-image&ids=' . $post->ID ), 'delete_fly_image', 'fly_nonce' );
-		$actions['fly-image-delete'] = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( __( 'Delete all cached image sizes for this image', 'fly-images' ) ) . '">' . __( 'Delete Fly Images', 'fly-images' ) . '</a>';
+		$actions['fly-image-delete'] = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( __( 'Delete all cached image sizes for this image', 'fly-dynamic-image-resizer' ) ) . '">' . __( 'Delete Fly Images', 'fly-dynamic-image-resizer' ) . '</a>';
 
 		return $actions;
 	}
@@ -152,7 +152,7 @@ class Core {
 		) {
 			// Delete all fly images.
 			$this->delete_all_fly_images();
-			echo '<div class="updated"><p>' . esc_html__( 'All cached images created on the fly have been deleted.', 'fly-images' ) . '</p></div>';
+			echo '<div class="updated"><p>' . esc_html__( 'All cached images created on the fly have been deleted.', 'fly-dynamic-image-resizer' ) . '</p></div>';
 		} elseif (
 			isset( $_GET['delete-fly-image'], $_GET['ids'], $_GET['fly_nonce'] ) // Input var okay.
 			&& wp_verify_nonce( sanitize_key( $_GET['fly_nonce'] ), 'delete_fly_image' ) // Input var okay.
@@ -163,7 +163,7 @@ class Core {
 				foreach ( $ids as $id ) {
 					$this->delete_attachment_fly_images( $id );
 				}
-				echo '<div class="updated"><p>' . esc_html__( 'Deleted all fly images for this image.', 'fly-images' ) . '</p></div>';
+				echo '<div class="updated"><p>' . esc_html__( 'Deleted all fly images for this image.', 'fly-dynamic-image-resizer' ) . '</p></div>';
 			}
 		}
 
