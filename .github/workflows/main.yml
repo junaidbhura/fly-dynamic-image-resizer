@@ -5,6 +5,7 @@ on: [ push ]
 env:
   WP_TESTS_DIR: /home/runner/wp-tests/wordpress-tests-lib
   WP_CORE_DIR: /home/runner/wp-tests/wordpress
+  WP_TESTS_PHPUNIT_POLYFILLS_PATH: $HOME/.composer/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php
 
 jobs:
 
@@ -54,6 +55,7 @@ jobs:
       run: |
         composer global require "phpunit/phpunit=5.7.*"
         composer global require wp-coding-standards/wpcs
+        composer global require yoast/phpunit-polyfills
         $HOME/.composer/vendor/bin/phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
 
     - name: Install WordPress test suite

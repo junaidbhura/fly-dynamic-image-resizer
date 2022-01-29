@@ -6,6 +6,7 @@
  */
 
 if ( ! defined( 'FS_METHOD' ) ) define( 'FS_METHOD', 'direct' );
+define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', getenv( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' ) );
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {
