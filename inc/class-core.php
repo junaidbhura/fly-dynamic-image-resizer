@@ -293,7 +293,50 @@ class Core {
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
 				// Create new image
-				$image_editor->resize( $width, $height, $crop );
+				if( is_numeric( $crop[0] ) ){
+					// sanitize and distribute parameters
+					$dst_w = intval( $size[0] );
+					$dst_h = intval( $size[1] );
+					$focal_x = floatval( $crop[0] );
+					$focal_y = floatval( $crop[1] );
+
+					// get original image size
+					$original_sizes = $image_editor->get_size();
+
+					// calculate cropped image size
+					$src_w = $original_sizes['width'];
+					$src_h = $original_sizes['height'];
+
+					if( $original_sizes['width'] / $original_sizes['height'] > $dst_w / $dst_h ){
+						$src_w = round( $original_sizes['height'] * ( $dst_w / $dst_h ) );
+					}else{
+						$src_h = round( $original_sizes['width'] * ( $dst_h / $dst_w ) );
+					}
+
+					// calculate focal top left position
+					$src_x = $original_sizes['width'] * $focal_x - $src_w * $focal_x;
+					if( $src_x + $src_w > $original_sizes['width'] ){
+						$src_x += $original_sizes['width'] - $src_w - $src_x;
+					}
+					if( $src_x < 0 ){
+						$src_x = 0;
+					}
+					$src_x = round( $src_x );
+
+					$src_y = $original_sizes['height'] * $focal_y - $src_h * $focal_y;
+					if( $src_y + $src_h > $original_sizes['height'] ){
+						$src_y += $original_sizes['height'] - $src_h - $src_y;
+					}
+					if( $src_y < 0 ){
+						$src_y = 0;
+					}
+					$src_y = round( $src_y );
+
+					// crop and resize
+					$image_editor->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
+				}else{
+					$image_editor->resize( $width, $height, $crop );
+				}
 				$image_editor->save( $fly_file_path );
 
 				// Trigger action
@@ -385,9 +428,13 @@ class Core {
 		if ( true === $crop ) {
 			$crop_extension = '-c';
 		} elseif ( is_array( $crop ) ) {
-			$crop_extension = '-' . implode( '', array_map( function( $position ) {
-				return $position[0];
-			}, $crop ) );
+			if( is_numeric( $crop[0] ) ){
+				$crop_extension = '-f' . round( $crop[0] * 100 ) . '_' . round( $crop[1] * 100 );
+			}else{
+				$crop_extension = '-' . implode( '', array_map( function( $position ) {
+					return $position[0];
+				}, $crop ) );
+			}
 		}
 
 		/**
