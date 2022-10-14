@@ -293,7 +293,7 @@ class Core {
 			$image_editor = wp_get_image_editor( $image_path );
 			if ( ! is_wp_error( $image_editor ) ) {
 				// Create new image
-				if( is_numeric( $crop[0] ) ){
+				if( is_array( $crop ) && is_numeric( $crop[0] ) ){
 					// sanitize and distribute parameters
 					$dst_w = intval( $size[0] );
 					$dst_h = intval( $size[1] );
@@ -429,7 +429,7 @@ class Core {
 			$crop_extension = '-c';
 		} elseif ( is_array( $crop ) ) {
 			if( is_numeric( $crop[0] ) ){
-				$crop_extension = '-f' . round( $crop[0] * 100 ) . '_' . round( $crop[1] * 100 );
+				$crop_extension = '-f' . round( floatval( $crop[0] ) * 100 ) . '_' . round( floatval( $crop[1] ) * 100 );
 			}else{
 				$crop_extension = '-' . implode( '', array_map( function( $position ) {
 					return $position[0];
