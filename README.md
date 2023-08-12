@@ -1,5 +1,17 @@
 # Fly Dynamic Image Resizer
 
+## This plugin is no longer available :(
+
+This plugin was created with the aim of solving dynamic images on WordPress. Although this plugin offers a pretty decent solution, I can no longer recommend its use, since there are better solutions out there.
+
+Here is another plugin I maintain, which may actually be better: https://wordpress.org/plugins/auto-cloudinary/
+
+Thank you for all your support over the years.
+
+This repository will continue to be available, so please feel free to fork and download it!
+
+---
+
 ![GitHub Actions](https://github.com/junaidbhura/fly-dynamic-image-resizer/workflows/Coding%20Standards%20and%20Tests/badge.svg)
 
 **[Download the WP Plugin! ♥](https://wordpress.org/plugins/fly-dynamic-image-resizer/)**
