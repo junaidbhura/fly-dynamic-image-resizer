@@ -189,4 +189,36 @@ class JB_Test_Fly_Plugin extends WP_UnitTestCase {
 		$this->assertEquals( self::$_core->get_fly_dir(), $path_1 );
 	}
 
+	/**
+	 * @covers JB\FlyImages\Core::get_fly_path
+	 */
+	function test_fly_dir_path() {
+		$image_id  = self::upload_image();
+		$file_name = get_post_field( 'post_name', $image_id ) . '-400x200-c.jpg';
+
+		$src = self::$_core->get_attachment_image_src( $image_id, '400x200' );
+		$this->assertEquals(
+			$src['src'],
+			'http://example.org/wp-content/uploads/fly-images/6/' . $file_name,
+			'Invalid SRC.'
+		);
+
+		add_filter(
+			'fly_dir_path',
+			function() {
+				return ABSPATH . 'fly-images';
+			}
+		);
+		self::$_core->init();
+
+		$src = self::$_core->get_attachment_image_src( $image_id, '400x200' );
+		$this->assertEquals(
+			$src['src'],
+			'http://example.org/fly-images/6/' . $file_name,
+			'Invalid SRC.'
+		);
+
+		wp_delete_attachment( $image_id, true );
+	}
+
 }
