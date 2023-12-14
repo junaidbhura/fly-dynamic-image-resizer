@@ -5,7 +5,7 @@ Description: Dynamically create image sizes on the fly!
 Version: 2.0.8
 Author: Junaid Bhura
 Author URI: https://junaid.dev
-Text Domain: fly-images
+Text Domain: fly-dynamic-image-resizer
 */
 
 namespace JB\FlyImages;
